@@ -12,12 +12,14 @@ class PepSpider(scrapy.Spider):
     start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
+        """Получает ссылки на страницы PEP."""
         all_peps = response.css(
             'section#index-by-category tbody a::attr(href)')
         for pep_link in all_peps:
             yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
+        """Со страницы PEP получает номер, название и статус."""
         raw_title = ' '.join(response.xpath(
             '//h1[@class="page-title"]//text()').getall())
         cleaned_title = ' '.join(raw_title.split())

@@ -10,8 +10,6 @@ import datetime as dt
 from pathlib import Path
 
 
-BASE_DIR = Path(__file__).parent
-
 BOT_NAME = 'pep_parse'
 
 SPIDER_MODULES = ['pep_parse.spiders']
@@ -20,10 +18,10 @@ NEWSPIDER_MODULE = 'pep_parse.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
-LOGS_DIR = BASE_DIR / 'logs'
-LOGS_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 NOW_FORMATTED = dt.datetime.now().strftime(DATETIME_FORMAT)
+LOGS_DIR = Path(__file__).parent / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
 
 LOG_FILE = f'{LOGS_DIR}/scrapy_{NOW_FORMATTED}.log'
 LOG_LEVEL = 'INFO'
