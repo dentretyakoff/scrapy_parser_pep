@@ -30,7 +30,7 @@ class PepSpider(scrapy.Spider):
                 {'number': pattern.group('number'),
                  'name': pattern.group('title'),
                  'status': response.css(
-                     'section#pep-content dd abbr::text').get()})
+                     'dt:contains("Status") + dd abbr::text').get()})
         else:
             self.log(f'По адресу {response.url} не найден заголовок',
                      level=logging.WARNING)
