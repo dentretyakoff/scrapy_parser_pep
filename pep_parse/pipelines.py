@@ -1,3 +1,4 @@
+import csv
 import datetime as dt
 from collections import defaultdict
 from pathlib import Path
@@ -21,10 +22,10 @@ class PepParsePipeline:
         now = dt.datetime.now()
         now_formatted = now.strftime(DATETIME_FORMAT)
         file_name = f'status_summary_{now_formatted}.csv'
-        total = sum(self.count_pep_per_status.values())
+        result = [('Статус', 'Количество')]
+        result.extend([(k, v) for k, v in self.count_pep_per_status.items()])
+        result.append(('Total', sum(self.count_pep_per_status.values())))
         with open(BASE_DIR / 'results' / file_name,
-                  mode='w', encoding='utf-8') as f:
-            f.write('Статус,Количество\n')
-            for status, count in self.count_pep_per_status.items():
-                f.write(f'{status},{count}\n')
-            f.write(f'Total,{total}\n')
+                  mode='w', encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile, dialect='unix')
+            writer.writerows(result)
